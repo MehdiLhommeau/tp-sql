@@ -1,0 +1,9 @@
+{
+  "name": "TP SQL Docker",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "phpmyadmin",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [80, 8080],
+  "postCreateCommand": "docker compose up -d"
+}
