@@ -1,30 +1,31 @@
 services:
   mariadb:
     image: mariadb:11
-    container_name: mariadb-server
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpwd     # mot de passe root
-      MYSQL_USER: polytech              # utilisateur étudiant
-      MYSQL_PASSWORD: sagisagi       # mot de passe étudiant
-    ports:
-      - "3306:3306"   # accès possible depuis l’hôte
+      MYSQL_ROOT_PASSWORD: rootpwd
+      MYSQL_USER: polytech
+      MYSQL_PASSWORD: sagisagi
     volumes:
-      - db_data:/var/lib/mysql  # persistance des données
+      - db_data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    container_name: phpmyadmin
     restart: always
     environment:
       PMA_HOST: mariadb
       PMA_USER: root
       PMA_PASSWORD: rootpwd
     ports:
-      - "8080:80"   # accessible depuis http://localhost:8080
+      - "8080:80"
+
+  dev:
+    image: mcr.microsoft.com/devcontainers/base:ubuntu
+    command: sleep infinity
+    volumes:
+      - ..:/workspace:cached
 
 volumes:
   db_data:
-
 
 
