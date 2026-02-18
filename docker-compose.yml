@@ -1,29 +1,30 @@
-version: '3.8'
-
 services:
-
-  db:
-    image: mariadb:10.6
+  mariadb:
+    image: mariadb:11
+    container_name: mariadb-server
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: tp
+      MYSQL_ROOT_PASSWORD: rootpwd     # mot de passe root
+      MYSQL_USER: polytech              # utilisateur étudiant
+      MYSQL_PASSWORD: sagisagi       # mot de passe étudiant
     ports:
-      - "3306:3306"
+      - "3306:3306"   # accès possible depuis l’hôte
+    volumes:
+      - db_data:/var/lib/mysql  # persistance des données
 
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
     restart: always
-    ports:
-      - "8080:80"
     environment:
-      PMA_HOST: db
-
-  apache:
-    image: php:8.2-apache
+      PMA_HOST: mariadb
+      PMA_USER: root
+      PMA_PASSWORD: rootpwd
     ports:
-      - "80:80"
-    volumes:
-      - ./www:/var/www/html
+      - "8080:80"   # accessible depuis http://localhost:8080
+
+volumes:
+  db_data:
+
 
 
